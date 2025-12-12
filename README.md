@@ -22,7 +22,7 @@ To run, install:
 Pkg.add(url="https://github.com/wangjie212/NCTSSOS")
 ```
 
-**QMBCertify** (https://github.com/wangjie212/QMBCertify) whichis used to compute the numerical bounds for energies and other ground state observables for quantum many-body-problems.
+**QMBCertify** (https://github.com/wangjie212/QMBCertify) which is used to compute the numerical bounds for energies and other ground state observables for quantum many-body-problems.
 
 ```julia
 Pkg.add(url="https://github.com/wangjie212/QMBCertify")
