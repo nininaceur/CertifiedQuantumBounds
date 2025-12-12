@@ -7,10 +7,15 @@ The package offers certified bounds on arbitrary non-commutative, constraint pol
 ---
 
 ## Installation
-Install via:
+**Install via:**
 Pkg.add(url="https://github.com/nininaceur/CertifiedQuantumBounds.git")
 
-For arbitrary non-commutative optimization problems, NCTSSOS (https://github.com/wangjie212/NCTSSOS) is used to compute lower bounds, which are then converted into certified bounds according to the *Round + Project + Lift* procedure described in the paper. For quantum many-body problems, QMBCertify (https://github.com/wangjie212/QMBCertify) is used to compute the numerical bounds.
+### Explicit Dependencies 
+To run, install:
+
+**NCTSSOS** (https://github.com/wangjie212/NCTSSOS) which is used to compute lower bounds, which are then converted into certified bounds according to the *Round + Project + Lift* procedure described in the paper. For quantum many-body problems 
+
+**QMBCertify** (https://github.com/wangjie212/QMBCertify) whichis used to compute the numerical bounds for energies and other ground state observables for quantum many-body-problems.
 
 ## Example usage
 
@@ -30,17 +35,7 @@ rational_certificate(CHSH, [], [], [X;Y], 2; partition=2, constraint="unipotent"
 
 # CHSH, sparse
 
-newbound, oldbound, shift = rational_certificate_sparse(
-  CHSH,
-  Polynomial[],   
-  Polynomial[], 
-  [X;Y],
-  1;
-  partition  = 2,
-  constraint = "unipotent",
-  QUIET      = false,
-  tol        = 1e-20
-)
+newbound, oldbound, shift = rational_certificate_sparse(CHSH, Polynomial[], Polynomial[], [X;Y],1; partition  = 2, constraint = "unipotent", QUIET = false, tol = 1e-20 )
 ```
 
 ### Certified bounds on ground state energies of the Heisenberg $J_1-J_2$ chain:
@@ -67,16 +62,16 @@ result = certify_qmb(data, N, coe[1], opt; tol_gram=1e-15, tol_dft=1e-12, snn=tr
 J2 = 0.2
 
 res = certify_qmb_corr(
-    12,
-    3,
-    3;
-    J2 = J2,
-    dist = 1,
-    extra_E = 3,
-    extra_corr = 3,
+    12, # N
+    3, # Relaxation order for energy
+    3; # Relaxation order for correlations
+    J2 = J2, # J2
+    dist = 1, # Define correlator to be bounded
+    extra_E = 3, # Extra monomials for energy
+    extra_corr = 3, # Extra monomials for correlations
     QUIET = true,
-    tol_gram = 1e-13,
-    tol_dft  = 1e-12
+    tol_gram = 1e-13, # Gram rounding precision
+    tol_dft  = 1e-12 # DFT matrix rounding precision
 )
 
 ```
