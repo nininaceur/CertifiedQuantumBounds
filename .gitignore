@@ -1,0 +1,9 @@
+Manifest.toml
+*.ji
+*.jl.cov
+*.jl.mem
+.vscode/
+.idea/
+.DS_Store
+results/
+output/
