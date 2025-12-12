@@ -18,19 +18,67 @@ For arbitrary non-commutative optimization problems, NCTSSOS (https://github.com
 ### Maximal violation of Bell inequalities
 
 ```julia
-include("benchmarks/bell_test.jl")
+
+# CHSH, dense
+
+@ncpolyvar X[1:2]
+@ncpolyvar Y[1:2]
+
+CHSH = -symmetrize(X[1]*Y[1] +  X[1]*Y[2]  + X[2]*Y[1]  - X[2]*Y[2])
+
+rational_certificate(CHSH, [], [], [X;Y], 2; partition=2, constraint="unipotent", QUIET=false, QUIETTS=true, tol=10e-30)
+
+# CHSH, sparse
+
+newbound, oldbound, shift = rational_certificate_sparse(
+  CHSH,
+  Polynomial[],   
+  Polynomial[], 
+  [X;Y],
+  1;
+  partition  = 2,
+  constraint = "unipotent",
+  QUIET      = false,
+  tol        = 1e-20
+)
 ```
 
 ### Certified bounds on ground state energies of the Heisenberg $J_1-J_2$ chain:
 
 ```julia
-include("benchmarks/hs_energy.jl")
+
+J2   = 0.2                      
+supp = [[1;4], [1;7]]             
+coe  = [3/4; 3/4*J2]               
+tt   = [1;1]                    
+
+N = 20
+
+opt, data = GSB(supp, coe, N, 2;
+    QUIET=true, rdm=0, lol=N, extra=1, pso=0, lso=0, three_type=tt, Gram=true)
+
+result = certify_qmb(data, N, coe[1], opt; tol_gram=1e-15, tol_dft=1e-12, snn=true, J2=J2)
+
 ```
 
 ### Certified bounds on ground state observables of the Heisenberg $J_1-J_2$ chain:
 
 ```julia
-include("benchmarks/hs_correlations.jl")
+J2 = 0.2
+
+res = certify_qmb_corr(
+    12,
+    3,
+    3;
+    J2 = J2,
+    dist = 1,
+    extra_E = 3,
+    extra_corr = 3,
+    QUIET = true,
+    tol_gram = 1e-13,
+    tol_dft  = 1e-12
+)
+
 ```
 
 
