@@ -7,13 +7,8 @@ The package offers certified bounds on arbitrary non-commutative, constrained po
 ---
 
 ## Installation
-**Install via:**
 
-```julia
-Pkg.add(url="https://github.com/nininaceur/CertifiedQuantumBounds")
-```
-
-### Explicit Dependencies 
+### Install explicit Dependencies:
 To run, install:
 
 **NCTSSOS** (https://github.com/wangjie212/NCTSSOS) which is used to compute lower bounds, which are then converted into certified bounds according to the *Round + Project + Lift* procedure described in the paper. For quantum many-body problems 
@@ -26,6 +21,14 @@ Pkg.add(url="https://github.com/wangjie212/NCTSSOS")
 
 ```julia
 Pkg.add(url="https://github.com/wangjie212/QMBCertify")
+```
+
+**Mosek**
+
+### Install CertifiedQuantumBounds.jl:
+
+```julia
+Pkg.add(url="https://github.com/nininaceur/CertifiedQuantumBounds")
 ```
 
 ---
