@@ -7,3 +7,5 @@ Manifest.toml
 .DS_Store
 results/
 output/
+.DS_Store
+**/.DS_Store
