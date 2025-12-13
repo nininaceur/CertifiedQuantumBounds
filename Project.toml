@@ -14,3 +14,7 @@ LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 NCTSSOS = "74af9cd0-d9b7-11ea-3577-f378dad115d4"
 Polynomials = "f27b6e38-b328-58d1-80ce-0feddd5e7a45"
 QMBCertify = "71df4310-1531-11eb-256d-190d0a52716f"
+
+[sources]
+NCTSSOS = {url = "https://github.com/wangjie212/NCTSSOS", rev = "master"}
+QMBCertify = {url = "https://github.com/wangjie212/QMBCertify", rev = "main"}
