@@ -11,7 +11,7 @@ The package offers certified bounds on arbitrary non-commutative, constrained po
 ### Install explicit Dependencies:
 To run, install:
 
-**NCTSSOS** (https://github.com/wangjie212/NCTSSOS)  to compute bounds to non-commutative polynomial optimization problems via (sparse) moment relaxations used , which are then converted into certified bounds according to the *Round + Project + Lift* procedure described in the paper. 
+**NCTSSOS** (https://github.com/wangjie212/NCTSSOS)  to compute bounds to non-commutative polynomial optimization problems via (sparse) moment relaxations, which are then converted into certified bounds according to the *Round + Project + Lift* procedure described in the paper. 
 
 ```julia
 Pkg.add(url="https://github.com/wangjie212/NCTSSOS")
