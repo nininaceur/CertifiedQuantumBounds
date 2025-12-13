@@ -11,19 +11,18 @@ The package offers certified bounds on arbitrary non-commutative, constrained po
 ### Install explicit Dependencies:
 To run, install:
 
-**NCTSSOS** (https://github.com/wangjie212/NCTSSOS) which is used to compute lower bounds, which are then converted into certified bounds according to the *Round + Project + Lift* procedure described in the paper. For quantum many-body problems 
+**NCTSSOS** (https://github.com/wangjie212/NCTSSOS)  to compute bounds to non-commutative polynomial optimization problems via (sparse) moment relaxations used , which are then converted into certified bounds according to the *Round + Project + Lift* procedure described in the paper. 
 
 ```julia
 Pkg.add(url="https://github.com/wangjie212/NCTSSOS")
 ```
-
-**QMBCertify** (https://github.com/wangjie212/QMBCertify) which is used to compute the numerical bounds for energies and other ground state observables for quantum many-body-problems.
+**QMBCertify** (https://github.com/wangjie212/QMBCertify) to compute the numerical bounds for energies and other ground state observables of quantum many-body systems, exploiting underlying symmetries.
 
 ```julia
 Pkg.add(url="https://github.com/wangjie212/QMBCertify")
 ```
 
-**Mosek**
+**Mosek** (https://github.com/MOSEK/Mosek.jl)
 
 ### Install CertifiedQuantumBounds.jl:
 
