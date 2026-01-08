@@ -5,7 +5,6 @@ Pkg.instantiate()
 using CertifiedQuantumBounds
 using DynamicPolynomials
 using NCTSSOS
-import DynamicPolynomials: Polynomial
 import Polynomials: roots
 import Polynomials
 const PPoly = Polynomials.Polynomial
@@ -25,7 +24,7 @@ function max_violation(alpha, beta)
     tau6 = 4.0
 
     coeffs = [tau0, tau1, tau2, tau3, tau4, tau5, tau6]    # ascending-order
-    p = Polynomial(coeffs)
+    p = DynamicPolynomials.Polynomial(coeffs)
     lambda      = roots(p)
     reallambda  = real.(lambda[abs.(imag.(lambda)) .< 1e-10])
     return maximum(reallambda)

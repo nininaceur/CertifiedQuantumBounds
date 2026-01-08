@@ -36,7 +36,7 @@ function heisenberg_chain_poly(J, vars, N::Int; snn::Bool=false, J2::Real=1.0)
     return H
 end
 
-function array_from_var(m::Monomial, vars)
+function array_from_var(m::DynamicPolynomials.Monomial, vars)
     idxs = Int[]
     @inbounds for (v, e) in zip(m.vars, m.z)
         pos = findfirst(==(v), vars) :: Int
@@ -47,11 +47,11 @@ function array_from_var(m::Monomial, vars)
     return idxs
 end
 
-monomial_to_u16(m::Monomial, vars) = UInt16.(array_from_var(m, vars))
+monomial_to_u16(m::DynamicPolynomials.Monomial, vars) = UInt16.(array_from_var(m, vars))
 u16_to_monomial(a::AbstractVector{<:Integer}, vars) = var_from_array(vars, Int.(a))
 
-function poly_nf_QMBC(p::Polynomial, vars; L::Int=0, realify=false)
-    acc = Dict{Monomial, ComplexF64}()
+function poly_nf_QMBC(p::DynamicPolynomials.Polynomial, vars; L::Int=0, realify=false)
+    acc = Dict{DynamicPolynomials.Monomial, ComplexF64}()
     @inbounds for (c, m) in zip(p.a, p.x)
         a = monomial_to_u16(m, vars)
         a_nf, c_nf = QMBCertify.reduce!(a; L=L, realify=realify)
@@ -60,7 +60,7 @@ function poly_nf_QMBC(p::Polynomial, vars; L::Int=0, realify=false)
     end
     q = nothing
     @inbounds for (m, c) in acc
-        t = Polynomial([c], [m]); q = q === nothing ? t : (q + t)
+        t = DynamicPolynomials.Polynomial([c], [m]); q = q === nothing ? t : (q + t)
     end
     return q === nothing ? zero(p) : q
 end
@@ -293,7 +293,7 @@ end
 
 tk(w::Vector{UInt16}) = Tuple(w)
 
-function coeff_vector_LHS_tsupp_rat(LHS_poly_rat::Polynomial, vars, tsupp; N::Int)
+function coeff_vector_LHS_tsupp_rat(LHS_poly_rat::DynamicPolynomials.Polynomial, vars, tsupp; N::Int)
     v = zeros(Rational{BigInt}, length(tsupp))
     loc_cache = Dict{Tuple{Vararg{UInt16}}, Int}()
     red_cache = Dict{Tuple{Vararg{UInt16}}, Tuple{Vector{UInt16},ComplexF64}}()

@@ -5,7 +5,6 @@ Pkg.instantiate()
 using CertifiedQuantumBounds
 using DynamicPolynomials
 using NCTSSOS
-import DynamicPolynomials: Polynomial
 
 # CHSH, dense
 println("********** CHSH, dense **********")
@@ -23,8 +22,8 @@ println("********** CHSH, sparse **********")
 
 newbound, oldbound, shift = rational_certificate_sparse(
   CHSH,
-  Polynomial[],    # now Vector{<:Polynomial} rather than Vector{Any}
-  Polynomial[], 
+  DynamicPolynomials.Polynomial[],    # now Vector{<:Polynomial} rather than Vector{Any}
+  DynamicPolynomials.Polynomial[], 
   [X;Y],
   1;
   partition  = 2,
@@ -50,8 +49,8 @@ println("********** I3322, sparse **********")
 
 newbound_sparse, oldbound_sparse, diff_sparse = rational_certificate_sparse(
   I3322,
-  Polynomial[],    # now Vector{<:Polynomial} rather than Vector{Any}
-  Polynomial[], 
+  DynamicPolynomials.Polynomial[],    # now Vector{<:Polynomial} rather than Vector{Any}
+  DynamicPolynomials.Polynomial[], 
   x,
   2;
   partition  = 3,

@@ -5,7 +5,6 @@ Pkg.instantiate()
 using CertifiedQuantumBounds
 using DynamicPolynomials
 using NCTSSOS
-import DynamicPolynomials: Polynomial
 
 
 # CHSH, dense
@@ -29,8 +28,8 @@ res_chsh_dense = rational_certificate(
 
 res_chsh_sparse = rational_certificate_sparse(
     CHSH,
-    Polynomial[],
-    Polynomial[],
+    DynamicPolynomials.Polynomial[],
+    DynamicPolynomials.Polynomial[],
     [X;Y],
     1;
     partition  = 2,
@@ -67,8 +66,8 @@ res_i3322_dense = rational_certificate(
 
 res_i3322_sparse = rational_certificate_sparse(
     I3322,
-    Polynomial[],
-    Polynomial[],
+    DynamicPolynomials.Polynomial[],
+    DynamicPolynomials.Polynomial[],
     x,
     2;
     partition  = 3,

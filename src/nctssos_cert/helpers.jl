@@ -27,11 +27,11 @@ arrays_of_basis(vars, basis) = get!(_array_cache, (vars,basis)) do
     [array_from_var(b, vars) for b in basis]
 end
 
-function conj_poly(p::Polynomial)
+function conj_poly(p::DynamicPolynomials.Polynomial)
     return p.a'*conj_monovec(Vector(p.x))
 end
 
-function symmetrize(p::Polynomial)
+function symmetrize(p::DynamicPolynomials.Polynomial)
     return (p + conj_poly(p))/2
 end
 
@@ -40,12 +40,12 @@ function rationalize_mat(mat; tol=1e-10)
     return Rational{BigInt}.(A)
 end
 
-function rationalize_poly(poly::Polynomial; tol=1e-15)
+function rationalize_poly(poly::DynamicPolynomials.Polynomial; tol=1e-15)
     poly.a isa Vector{Rational{BigInt}} && return poly
 
     if eltype(poly.a) <: Real
          coeffs = Rational{BigInt}.(rationalize.(poly.a; tol=tol))
-         return Polynomial(coeffs, poly.x)
+         return DynamicPolynomials.Polynomial(coeffs, poly.x)
     end
 
     return poly
@@ -113,8 +113,8 @@ function gi_to_decomp_rat_eq_sparse(
     eq_rat     = rationalize_poly(eq;   tol = tol)
 
     coef1      = one(typeof(first(eq_rat.a)))            
-    pbasis     = [ Polynomial([coef1], [m]) for m in basis ]
-    pconj      = [ Polynomial([coef1], [m]) for m in vec(conjbasis) ]
+    pbasis     = [ DynamicPolynomials.Polynomial([coef1], [m]) for m in basis ]
+    pconj      = [ DynamicPolynomials.Polynomial([coef1], [m]) for m in vec(conjbasis) ]
 
     return pconj' * gram_rat * (eq_rat .* pbasis)
 end
@@ -168,8 +168,8 @@ function gi_to_decomp_rat_eq(vars, data, gram, i, eq; tol=1e-15)
 
     coef1   = one(typeof(first(eq_rat.a)))
 
-    pbasis = [ Polynomial([coef1], [m]) for m in basis   ]
-    pconj  = [ Polynomial([coef1], [m]) for m in monoms   ]
+    pbasis = [ DynamicPolynomials.Polynomial([coef1], [m]) for m in basis   ]
+    pconj  = [ DynamicPolynomials.Polynomial([coef1], [m]) for m in monoms   ]
 
     return pconj' * gram_rat * (eq_rat .* pbasis)
 end
@@ -187,7 +187,7 @@ function make_psd(mat)
     return vecs * Diagonal(valpos) * vecs'           
 end
 
-function reverse_monomial(m::Monomial)
+function reverse_monomial(m::DynamicPolynomials.Monomial)
     word = Vector{eltype(m.vars)}()
     for (v, p) in zip(m.vars, m.z)
         for _ in 1:p
@@ -215,10 +215,10 @@ function reverse_monomial(m::Monomial)
         push!(new_pows, count)
     end
 
-    return Monomial(new_vars, new_pows)
+    return DynamicPolynomials.Monomial(new_vars, new_pows)
 end
 
-function conj_monovec(ms::Vector{<:Monomial})
+function conj_monovec(ms::Vector{<:DynamicPolynomials.Monomial})
     return map(reverse_monomial, ms)
 end
 
@@ -234,7 +234,7 @@ function pairs_up_to_length(u, v, maxlen::Int, allowed::Set{Vector{Int}})
 end
 
 function var_from_array(var, arr)
-    result = Monomial(var, zeros(Int, length(var)))
+    result = DynamicPolynomials.Monomial(var, zeros(Int, length(var)))
     if(length(arr) == 0)
         return result
     end
@@ -414,11 +414,11 @@ function _rhs_from_bucket(bucket::Dict{Any,Vector{Tuple{Int,Int}}}, G)
     it = collect(bucket)
     nf₀, pairs₀ = it[1]
     s₀ = sum(G[i,j] for (i,j) in pairs₀)
-    term₀ = Polynomial([one(Rational{BigInt})], [nf₀])
+    term₀ = DynamicPolynomials.Polynomial([one(Rational{BigInt})], [nf₀])
     poly = s₀ * term₀
     for (nf, pairs) in it[2:end]
         s = sum(G[i,j] for (i,j) in pairs)
-        term = Polynomial([one(Rational{BigInt})], [nf])
+        term = DynamicPolynomials.Polynomial([one(Rational{BigInt})], [nf])
         poly += s * term
     end
     return poly
@@ -452,7 +452,7 @@ function project_gram_ideal(gram, basis, LHS, r, vars; partition=nothing, constr
     return g_proj, bucket
 end
 
-function coeff_map_float(p::Polynomial)
+function coeff_map_float(p::DynamicPolynomials.Polynomial)
     d = Dict{String,Float64}()
     @inbounds for (c, m) in zip(p.a, p.x)
         d[string(m)] = get(d, string(m), 0.0) + Float64(c)
@@ -462,7 +462,7 @@ end
 
 function raw_lhs_rhs_diff_from_bucket(bucket::Dict{Any,Vector{Tuple{Int,Int}}},
                                       G::AbstractMatrix{<:Real},
-                                      LHS::Polynomial)
+                                      LHS::DynamicPolynomials.Polynomial)
     coeffL = coeff_map_float(LHS) 
 
     err = 0.0
@@ -515,7 +515,7 @@ function poly_clique(p,
     error("Polynomial involves variables from several cliques.")
 end
 
-function merged_coeffs(p::Polynomial)
+function merged_coeffs(p::DynamicPolynomials.Polynomial)
     d = Dict{String,Rational{BigInt}}()
     for (c,m) in zip(p.a, p.x)
         d[string(m)] = get(d, string(m), 0//1) + c

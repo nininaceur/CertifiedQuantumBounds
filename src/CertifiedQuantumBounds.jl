@@ -6,7 +6,6 @@ using DynamicPolynomials
 using ITensors
 using ITensorMPS
 using QMBCertify
-import DynamicPolynomials: Monomial, Polynomial
 using Arblib
 
 include(joinpath(@__DIR__, "nctssos_cert", "caches.jl"))
