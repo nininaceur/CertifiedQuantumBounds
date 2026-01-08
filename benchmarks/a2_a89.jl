@@ -6,7 +6,6 @@ Pkg.instantiate()
 using CertifiedQuantumBounds
 using DynamicPolynomials
 using NCTSSOS
-import DynamicPolynomials: Polynomial
 import Base.Filesystem: basename, splitext
 function load_bell_matrices(dir::AbstractString)
     files = sort(filter(f -> occursin(r"^A\d+\.txt$", f), readdir(dir)))

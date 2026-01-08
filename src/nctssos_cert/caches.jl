@@ -2,8 +2,8 @@ global _basis_cache     = IdDict{Tuple{Vector,Vector{Vector{UInt16}}},Vector}()
 global _poly_index_cache = IdDict{Any,Dict{String,Int}}()
 global _array_cache      = IdDict{Tuple{Vector,Vector},Vector{Vector{Int}}}()
 
-global _decomp_cache = IdDict{Tuple{Ptr{Nothing},UInt}, Polynomial}()
-global _rhs_cache    = IdDict{Tuple{Ptr{Nothing},UInt}, Polynomial}()
+global _decomp_cache = IdDict{Tuple{Ptr{Nothing},UInt}, DynamicPolynomials.Polynomial}()
+global _rhs_cache    = IdDict{Tuple{Ptr{Nothing},UInt}, DynamicPolynomials.Polynomial}()
 global _nf_cache        = IdDict{Vector{Int},Any}()
 global _concat_nf_cache =
     IdDict{Tuple{Vector{Int},Vector{Int},Int,String},Any}()

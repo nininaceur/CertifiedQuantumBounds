@@ -42,7 +42,7 @@ function rational_certificate_sparse(
     G0_rat  = Vector{Matrix{Rational{BigInt}}}(undef, K)
     basisKs = Vector{Vector}(undef, K)
 
-    RHS_raw = Vector{Polynomial}(undef, K)
+    RHS_raw = Vector{DynamicPolynomials.Polynomial}(undef, K)
 
     for k in 1:K
         G0k = data.GramMat[k][1][1]
@@ -66,7 +66,7 @@ function rational_certificate_sparse(
         RHS_raw[k] = rationalize_poly(RHS_raw[k]; tol=tol)
     end
 
-    RHS_sum = reduce(+, RHS_raw; init=zero(LHS_nf))
+    RHS_sum = Base.reduce(+, RHS_raw; init=zero(LHS_nf))
     diff    = merged_coeffs(LHS_nf - RHS_sum) 
 
     if !QUIET
@@ -103,7 +103,7 @@ function rational_certificate_sparse(
         end
     end
 
-    RHS_proj   = Vector{Polynomial}(undef, K)
+    RHS_proj   = Vector{DynamicPolynomials.Polynomial}(undef, K)
     total_shift = zero(lambda)
 
     for k in 1:K
@@ -132,7 +132,7 @@ function rational_certificate_sparse(
         println("Total shift = ", total_shift)
         println("New bound   = ", new_bound)
 
-        global_RHS  = reduce(+, RHS_proj; init=zero(LHS_nf))
+        global_RHS  = Base.reduce(+, RHS_proj; init=zero(LHS_nf))
         monR, coeR  = arrange(global_RHS, vars;
                               partition  = partition,
                               constraint = constraint)
